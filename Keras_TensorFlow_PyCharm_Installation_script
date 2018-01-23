@@ -1,11 +1,14 @@
+######################################
+# Installing Keras CPU for Python2.7 #
+######################################
+
 ### TesnorFlow from https://www.tensorflow.org/install/
 
-sudo apt-get install libcupti-dev
-sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7
+sudo apt-get install python-pip python-dev # Python 2.7
+sudo pip install --upgrade pip
 
-sudo apt-get install python-pip python-dev
-pip install --upgrade tensorflowpip install tensorflow
+pip install tensorflow
 
 ### Keras from https://keras.io/#installation
 
-sudo pip install keras
+pip install keras
