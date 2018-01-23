@@ -2,7 +2,7 @@
 # Installing Keras CPU for Python2.7 #
 ######################################
 
-### TesnorFlow from https://www.tensorflow.org/install/
+### TensorFlow from https://www.tensorflow.org/install/
 
 sudo apt-get install python-pip python-dev # Python 2.7
 sudo pip install --upgrade pip
@@ -12,3 +12,10 @@ pip install tensorflow
 ### Keras from https://keras.io/#installation
 
 pip install keras
+
+### Pycharm
+
+echo "deb http://archive.getdeb.net/ubuntu $(lsb_release -cs)-getdeb apps" | sudo tee /etc/apt/sources.list.d/getdeb-apps.list
+wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install pycharm
