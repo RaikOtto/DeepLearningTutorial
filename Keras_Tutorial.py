@@ -8,7 +8,7 @@ import numpy
 seed = 7
 numpy.random.seed(seed)
 # load pima indians dataset
-dataset = numpy.loadtxt("/home/ottoraik/Downloads/pima-indians-diabetes.data", delimiter=",",  )
+dataset = numpy.loadtxt("/home/ottoraik/Downloads/pima-indians-diabetes.csv", delimiter=",",  )
 # split into input (X) and output (Y) variables
 X = dataset[:,0:8]
 Y = dataset[:,8]
