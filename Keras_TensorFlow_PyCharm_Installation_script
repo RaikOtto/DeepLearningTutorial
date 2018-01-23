@@ -9,6 +9,3 @@ pip install --upgrade tensorflowpip install tensorflow
 ### Keras from https://keras.io/#installation
 
 sudo pip install keras
-git clone https://github.com/keras-team/keras.git
-cd keras
-sudo python setup.py install
