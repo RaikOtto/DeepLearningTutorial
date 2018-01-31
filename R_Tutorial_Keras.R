@@ -1,85 +1,3 @@
-
-# https://keras.rstudio.com/
-
-## The MNIST dataset is included with Keras and can be accessed using the dataset_mnist() function. Here we load the dataset then create variables for our test and training data:
-
-install.packages(c("Keras","kerasR"))
-
-library(keras)
-mnist <- dataset_mnist()
-x_train <- mnist$train$x
-y_train <- mnist$train$y
-x_test <- mnist$test$x
-y_test <- mnist$test$y
-
-## The x data is a 3-d array (images,width,height) of grayscale values . To prepare the data for training we convert the 3-d arrays into matrices by reshaping width and height into a single dimension (28x28 images are flattened into length 784 vectors). Then, we convert the grayscale values from integers ranging between 0 to 255 into floating point values ranging between 0 and 1:
-
-# reshape
-x_train <- array_reshape(x_train, c(nrow(x_train), 784))
-x_test <- array_reshape(x_test, c(nrow(x_test), 784))
-# rescale
-x_train <- x_train / 255
-x_test <- x_test / 255
-
-## Note that we use the array_reshape() function rather than the dim<-() function to reshape the array. This is so that the data is re-interpreted using row-major semantics (as opposed to R’s default column-major semantics), which is in turn compatible with the way that the numerical libraries called by Keras interpret array dimensions.
-## The y data is an integer vector with values ranging from 0 to 9. To prepare this data for training we one-hot encode the vectors into binary class matrices using the Keras to_categorical() function:
-
-y_train <- to_categorical(y_train, 10)
-y_test <- to_categorical(y_test, 10)
-
-## Defining the Model
-## The core data structure of Keras is a model, a way to organize layers. The simplest type of model is the Sequential model, a linear stack of layers.
-## We begin by creating a sequential model and then adding layers using the pipe (%>%) operator:
-
-model <- keras_model_sequential() 
-model %>% 
-  layer_dense(units = 256, activation = 'relu', input_shape = c(784)) %>% 
-  layer_dropout(rate = 0.4) %>% 
-  layer_dense(units = 128, activation = 'relu') %>%
-  layer_dropout(rate = 0.3) %>%
-  layer_dense(units = 10, activation = 'softmax')
-
-## The input_shape argument to the first layer specifies the shape of the input data (a length 784 numeric vector representing a grayscale image). The final layer outputs a length 10 numeric vector (probabilities for each digit) using a softmax activation function.
-## Use the summary() function to print the details of the model:
-
-summary(model)
-
-## Next, compile the model with appropriate loss function, optimizer, and metrics:
-
-model %>% compile(
-  loss = 'categorical_crossentropy',
-  optimizer = optimizer_rmsprop(),
-  metrics = c('accuracy')
-)
-
-## Training and Evaluation
-## Use the fit() function to train the model for 30 epochs using batches of 128 images:
-
-history <- model %>% fit(
-  x_train, y_train, 
-  epochs = 30, batch_size = 128, 
-  validation_split = 0.2
-)
-
-## The history object returned by fit() includes loss and accuracy metrics which we can plot:
-
-plot(history)
-
-model %>% evaluate(x_test, y_test)
-
-## Generate predictions on new data:
-
-model %>% predict_classes(x_test)
-
-
-
-####################
-### NEXT TUTORIAL ##
-####################
-
-
-# https://www.datacamp.com/community/tutorials/keras-r-deep-learning
-
 # A Small Example (Boston Housing Data)
 # Building a model in Keras starts by constructing an empty Sequential model.
 
@@ -233,11 +151,11 @@ mean(Y_test == Y_test_hat)
 ##           7    0    4   10    1    0    0    0 1011    1    1
 ##           8    4    0    4    3    3    0    0    1  953    6
 ##           9    1    0    1    1    9    2    0    6    0  989
-## 0.9878
-We now have a classification rate of over 98.7%, converting almost twice as many mis-classified digits from before into the correct buckets now.
 
-Recurrent Neural Networks (RNN) with IMDB
-As a final example, we will demonstrate the usage of recurrent neural networks in Keras. RNNs are able to “hold their state” in between inputs, and therefore are useful for modeling a sequence of data such as occurs with a time series or with a collection words in a text. Here we will use them to predict whether a movie review from IMDB is generally positive (1) or negative (0). We’ll load the data in using a similar command as with the Boston Housing Data and MNIST, but here the load functions has a few options that we can set. Once the data is loaded, we’ll use the wrapper pad_sequences to make sure every review has exactly 100 words (those with fewer get padded with a special “word” coded as zeros). Because there are only two classes, we can keep Y_train in its default format.
+# We now have a classification rate of over 98.7%, converting almost twice as many mis-classified digits from before into the correct buckets now.
+
+# Recurrent Neural Networks (RNN) with IMDB
+# As a final example, we will demonstrate the usage of recurrent neural networks in Keras. RNNs are able to “hold their state” in between inputs, and therefore are useful for modeling a sequence of data such as occurs with a time series or with a collection words in a text. Here we will use them to predict whether a movie review from IMDB is generally positive (1) or negative (0). We’ll load the data in using a similar command as with the Boston Housing Data and MNIST, but here the load functions has a few options that we can set. Once the data is loaded, we’ll use the wrapper pad_sequences to make sure every review has exactly 100 words (those with fewer get padded with a special “word” coded as zeros). Because there are only two classes, we can keep Y_train in its default format.
 
 imdb <- load_imdb(num_words = 500, maxlen = 100)
 
@@ -245,7 +163,8 @@ X_train <- pad_sequences(imdb$X_train[1:4000], maxlen = 100)
 Y_train <- imdb$Y_train[1:4000]
 X_test <- pad_sequences(imdb$X_train[4001:5736], maxlen = 100)
 Y_test <- imdb$Y_train[4001:5736]
-Notice that there is not an explicit test set so we made that manually by using only the first 4000 document for training. Now we’ll build a model that includes an Embedding layer. This maps each word index in X_train into a 500 dimensional space. If you are familiar with the word2vec or GloVe algorithms, these are just particular, well-known examples of word embeddings. Following the embedding we will flatten the output and add a Dense layer before predicting the output. As we only have a single output, we’ll use a sigmoid activation rather than a softmax.
+
+# Notice that there is not an explicit test set so we made that manually by using only the first 4000 document for training. Now we’ll build a model that includes an Embedding layer. This maps each word index in X_train into a 500 dimensional space. If you are familiar with the word2vec or GloVe algorithms, these are just particular, well-known examples of word embeddings. Following the embedding we will flatten the output and add a Dense layer before predicting the output. As we only have a single output, we’ll use a sigmoid activation rather than a softmax.
 
 mod <- Sequential()
 
@@ -260,21 +179,23 @@ mod$add(Activation('relu'))
 
 mod$add(Dense(1))
 mod$add(Activation('sigmoid'))
-We use almost the exact same commands to compile and fit the model, but here modify the loss to be “binary_crossentropy” because we have only one column in the output. We also found that the learning rate needed to be made slightly smaller as to not overfit the data.
+
+# We use almost the exact same commands to compile and fit the model, but here modify the loss to be “binary_crossentropy” because we have only one column in the output. We also found that the learning rate needed to be made slightly smaller as to not overfit the data.
 
 keras_compile(mod,  loss = 'binary_crossentropy', optimizer = RMSprop(lr = 0.00025))
-keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = 10, verbose = 1,
-          validation_split = 0.1)
-Now we predict the raw values and round to the nearest integer, which should be either 0 or 1, and compare to the actual test set.
+keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = 10, verbose = 1,validation_split = 0.1)
+
+# Now we predict the raw values and round to the nearest integer, which should be either 0 or 1, and compare to the actual test set.
 
 Y_test_hat <- keras_predict(mod, X_test)
 table(Y_test, round(Y_test_hat))
 mean(Y_test == as.numeric(round(Y_test_hat)))
+
 ## Y_test   0   1
 ##     0 609 189
 ##     1 175 763
 ## [1] 0.7903226
-This gives a classification rate of 79%. We can try to improve that by including a Long-Short Term Memory Unit (LSTM), an explicit RNN layer, in the model. This is easy to program, but it makes the model learn about 5-10 times slower, at least if you are not running on a dedicated GPU.
+# This gives a classification rate of 79%. We can try to improve that by including a Long-Short Term Memory Unit (LSTM), an explicit RNN layer, in the model. This is easy to program, but it makes the model learn about 5-10 times slower, at least if you are not running on a dedicated GPU.
 
 mod <- Sequential()
 
@@ -289,58 +210,65 @@ mod$add(Activation('relu'))
 
 mod$add(Dense(1))
 mod$add(Activation('sigmoid'))
-Which we compile and fit as before:
+# Which we compile and fit as before:
   
-  keras_compile(mod,  loss = 'binary_crossentropy', optimizer = RMSprop(lr = 0.00025))
-keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = 10, verbose = 1,
-          validation_split = 0.1)
-The test results do offer an improvement:
+keras_compile(mod,  loss = 'binary_crossentropy', optimizer = RMSprop(lr = 0.00025))
+keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = 10, verbose = 1,validation_split = 0.1)
+
+# The test results do offer an improvement:
   
-  Y_test_hat <- keras_predict(mod, X_test)
+Y_test_hat <- keras_predict(mod, X_test)
 mean(Y_test == as.numeric(round(Y_test_hat)))
 ## Y_test   0   1
 ##      0 579 219
 ##      1  84 854
 ## [1] 0.8254608
-With the classification rate now up to 82.5%. The real power of RNNs, however, really comes out with larger models.
 
-Saving models
-Because most of the objects returned by kerasR functions are references to Python objects, trying to save them with readRDS or other R-specific functions will generally fail. Instead, you should use one of the three specific wrapper included with kerasR. Given the model from the previous fits, we can do any one of the following:
-  
-  keras_save(mod, "full_model.h5")
+# With the classification rate now up to 82.5%. The real power of RNNs, however, really comes out with larger models.
+
+# Saving models
+# Because most of the objects returned by kerasR functions are references to Python objects, trying to save them with readRDS or other R-specific functions will generally fail. Instead, you should use one of the three specific wrapper included with kerasR. Given the model from the previous fits, we can do any one of the following:
+
+keras_save(mod, "full_model.h5")
 keras_save_weights(mod, "weights_model.h5")
 keras_model_to_json(mod, "model_architecture.json")
-The first saves the entire model, which is more than likely what most users would want, as a binary file. The second saves only the weights as a binary file; the actual model architecture would have to be created again in R. Finally, the last saves just a json description of the model. This is probably most helpful because it gives a human-readable description of your model architecture. The follow functions show how to read these outputs back into R, respectively:
+
+# The first saves the entire model, which is more than likely what most users would want, as a binary file. The second saves only the weights as a binary file; the actual model architecture would have to be created again in R. Finally, the last saves just a json description of the model. This is probably most helpful because it gives a human-readable description of your model architecture. The follow functions show how to read these outputs back into R, respectively:
   
-  mod <- keras_load("full_model.h5")
-keras_load_weights(mod, tf)
+mod <- keras_load("full_model.h5")
+#keras_load_weights(mod, tf)
 mod <- keras_model_to_json("model_architecture.json")
-Note that all three outputs can be read directly into a Python session running the keras module.
+# Note that all three outputs can be read directly into a Python session running the keras module.
 
-Loading Pretrained Models
-Another fantastic feature in Keras is the inclusion of several pretrained, state of the art, image processing models. We will show a small example of using InceptionV3 to classify a photo of an elephant. Specifically, let’s classify this elephant photo:
+# Loading Pretrained Models
+# Another fantastic feature in Keras is the inclusion of several pretrained, state of the art, image processing models. We will show a small example of using InceptionV3 to classify a photo of an elephant. Specifically, let’s classify this elephant photo:
   
-  Elephant
-Elephant
+# To begin with, let us load the InceptionV3 model into R:
+  
+inception <- InceptionV3(weights='imagenet')
+# And then, we will use the wrapper load_img to load the elephant image into R as a python object, and then convert it into an array with img_to_array and expand_dims:
 
-To begin with, let us load the InceptionV3 model into R:
-  
-  inception <- InceptionV3(weights='imagenet')
-And then, we will use the wrapper load_img to load the elephant image into R as a python object, and then convert it into an array with img_to_array and expand_dims:
-  
-  img <- load_img("elephant.jpg", target_size = c(299, 299))
+
+curl::curl_download(
+  url ="https://raw.githubusercontent.com/RaikOtto/DeepLearningTutorial/master/Download.jpeg",
+  destfile = normalizePath("~/Downloads/elephant.jpg")
+)
+
+img <- load_img( normalizePath("~/Downloads/elephant.jpg"), target_size = c(299, 299))
 x <- img_to_array(img)
 x <- expand_dims(x, axis = 0)
-We specifically ask that the image be converted into a 299 by 299 image, the size of the images used to train VGG19 from imagenet. The photo must then also undergo the exact same preprocessing used on images that trained InceptionV3, which in this case just divides all the pixels by 255
+# We specifically ask that the image be converted into a 299 by 299 image, the size of the images used to train VGG19 from imagenet. The photo must then also undergo the exact same preprocessing used on images that trained InceptionV3, which in this case just divides all the pixels by 255
 
 x <- x / 255
-We can get the raw prediction categories with
+# We can get the raw prediction categories with
 
 pred <- keras_predict(inception, x)
-But even more directly, we can take this output and get category names:
+# But even more directly, we can take this output and get category names:
   
-  > unlist(decode_predictions(pred, model = "InceptionV3", top = 3))
-[1] "n01871265"         "tusker"            "0.546035408973694"
-[4] "n02504013"         "Indian_elephant"   "0.247862368822098"
-[7] "n02504458"         "African_elephant"  "0.143739387392998"
-And we see that VGG19 correctly identifies the most likely animal in the photo as an elephant. More specifically, it spreads the probability weights over 3 specific sub-types of elephant.
+unlist(decode_predictions(pred, model = "InceptionV3", top = 3))
+
+#[1] "n01871265"         "tusker"            "0.546035408973694"
+#[4] "n02504013"         "Indian_elephant"   "0.247862368822098"
+#[7] "n02504458"         "African_elephant"  "0.143739387392998"
+
+# And we see that VGG19 correctly identifies the most likely animal in the photo as an elephant. More specifically, it spreads the probability weights over 3 specific sub-types of elephant.
