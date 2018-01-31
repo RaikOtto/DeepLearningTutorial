@@ -7,11 +7,11 @@ import numpy,scipy,scipy.io
 Xtrain = []
 Ttrain = []
 for batch in [1,2,3,4,5]:
-  D = scipy.io.loadmat(’cifar-10-batches-mat/data_batch_%d’%batch)
-  Xtrain += [(D[’data’]/127.5-1.0).reshape([-1,3,32,32]).transpose([0,2,3,1])]
-  Ttrain += [(D[’labels’][:,numpy.newaxis] == numpy.arange(10)).reshape([-1,1,1,10])*1.0]
-  Xtrain = numpy.concatenate(Xtrain,axis=0)
-  Ttrain = numpy.concatenate(Ttrain,axis=0)
+    D = scipy.io.loadmat('cifar-10-batches-mat/data_batch_%d'%batch) # CHANGE PATH
+    Xtrain += [(D['data']/127.5-1.0).reshape([-1,3,32,32]).transpose([0,2,3,1])]
+    Ttrain += [(D['labels'][:,numpy.newaxis] == numpy.arange(10)).reshape([-1,1,1,10])*1.0]
+    Xtrain = numpy.concatenate(Xtrain,axis=0)
+    Ttrain = numpy.concatenate(Ttrain,axis=0)
 
 
 D = scipy.io.loadmat(’cifar-10-batches-mat/test_batch’)
