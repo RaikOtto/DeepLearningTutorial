@@ -73,6 +73,8 @@ if not data_augmentation:
 else:
     print('Using real-time data augmentation.')
     # This will do preprocessing and realtime data augmentation:
+    # datagen = ImageDataGenerator(featurewise_center=False,samplewise_center=False, featurewise_std_normalization=False,samplewise_std_normalization=False,zca_whitening=False,rotation_range=0,width_shift_range=0.1,height_shift_range=0.1,horizontal_flip=True,vertical_flip=False)
+    # ^ in case the lines below don't work
     datagen = ImageDataGenerator(
         featurewise_center=False,  # set input mean to 0 over the dataset
         samplewise_center=False,  # set each sample mean to 0
