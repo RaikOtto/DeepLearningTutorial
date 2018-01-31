@@ -69,7 +69,14 @@ model %>% evaluate(x_test, y_test)
 
 model %>% predict_classes(x_test)
 
-### NEXT TUTORIAL
+
+
+####################
+### NEXT TUTORIAL ##
+####################
+
+
+# https://www.datacamp.com/community/tutorials/keras-r-deep-learning
 
 # A Small Example (Boston Housing Data)
 # Building a model in Keras starts by constructing an empty Sequential model.
