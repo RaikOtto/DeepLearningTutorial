@@ -3,6 +3,8 @@
 
 ## The MNIST dataset is included with Keras and can be accessed using the dataset_mnist() function. Here we load the dataset then create variables for our test and training data:
 
+install.packages(c("Keras","kerasR"))
+
 library(keras)
 mnist <- dataset_mnist()
 x_train <- mnist$train$x
