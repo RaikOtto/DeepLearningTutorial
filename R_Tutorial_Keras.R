@@ -1,6 +1,8 @@
 # A Small Example (Boston Housing Data)
 # Building a model in Keras starts by constructing an empty Sequential model.
 
+# pip install tensorflow
+# pip install keras
 # install.packages("kerasR")
 # install.packages("keras")
 library(kerasR)
