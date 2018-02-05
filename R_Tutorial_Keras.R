@@ -194,7 +194,7 @@ Y_test_hat <- keras_predict(mod, X_test)
 table(Y_test, round(Y_test_hat))
 mean(Y_test == as.numeric(round(Y_test_hat)))
 
-## Y_test   0   1
+## Y_test   0Table 5   1
 ##     0 609 189
 ##     1 175 763
 ## [1] 0.7903226
@@ -254,10 +254,10 @@ inception <- InceptionV3(weights='imagenet')
 
 curl::curl_download(
   url ="https://raw.githubusercontent.com/RaikOtto/DeepLearningTutorial/master/Download.jpeg",
-  destfile = normalizePath("~/Downloads/elephant.jpg")
+  destfile = normalizePath("~/elephant.jpg")
 )
 
-img <- load_img( normalizePath("~/Downloads/elephant.jpg"), target_size = c(299, 299))
+img <- load_img( normalizePath("~/elephant.jpg"), target_size = c(299, 299))
 x <- img_to_array(img)
 x <- expand_dims(x, axis = 0)
 # We specifically ask that the image be converted into a 299 by 299 image, the size of the images used to train VGG19 from imagenet. The photo must then also undergo the exact same preprocessing used on images that trained InceptionV3, which in this case just divides all the pixels by 255
