@@ -257,7 +257,7 @@ curl::curl_download(
   destfile = normalizePath("~/elephant.jpg")
 )
 
-img <- load_img( normalizePath("~/elephant.jpg"), target_size = c(299, 299))
+img <- kerasR::load_img( normalizePath("~/elephant.jpg"), target_size = c(299, 299))
 x <- img_to_array(img)
 x <- expand_dims(x, axis = 0)
 # We specifically ask that the image be converted into a 299 by 299 image, the size of the images used to train VGG19 from imagenet. The photo must then also undergo the exact same preprocessing used on images that trained InceptionV3, which in this case just divides all the pixels by 255
