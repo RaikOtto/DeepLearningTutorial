@@ -44,7 +44,7 @@ model.compile(
 history = model.fit(
     X,
     Y,
-    epochs=150,
+    epochs=1000,
     batch_size=10,
     verbose=2)
 
@@ -55,7 +55,7 @@ print("\nLoss: %.2f, Accuracy: %.2f%%" % (loss, accuracy*100))
 probabilities = model.predict(X)
 predictions = [float(x>0.5) for x in probabilities]
 
-## visualizations
+## visualizations WORK ONLY VIA 'ssh -XC' and 'xterm python' or locally on a laptop
 
 # loss function
 import matplotlib.pyplot as plt
