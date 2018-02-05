@@ -41,18 +41,36 @@ model.compile(
     optimizer='adam',
     metrics=['accuracy'])
 # Fit the model
-model.fit(
+history = model.fit(
     X,
     Y,
     epochs=150,
     batch_size=10,
     verbose=2)
+
 # Evaluate the network
 loss, accuracy = model.evaluate(X, Y)
 print("\nLoss: %.2f, Accuracy: %.2f%%" % (loss, accuracy*100))
 # calculate predictions
 probabilities = model.predict(X)
 predictions = [float(x>0.5) for x in probabilities]
+
+# visualizations
+import matplotlib.pyplot as plt
+
+loss = history.history['loss']
+#val_loss = history.history['val_loss']
+
+epochs = range(1, len(loss) + 1)
+
+plt.plot(epochs, loss, 'bo', label='Training loss')
+#plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.show()
 
 cm = confusion_matrix(Y, predictions)
 print ("True positives:  %.0f" % cm[1,1])
