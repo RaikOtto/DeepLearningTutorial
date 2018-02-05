@@ -4,11 +4,17 @@ import sys; print('Python %s on %s' % (sys.version, sys.platform))
 from keras.models import Sequential
 from keras.layers import Dense
 import numpy
+import urllib2
+
 # fix random seed for reproducibility
 seed = 7
 numpy.random.seed(seed)
+
 # load pima indians dataset
-dataset = numpy.loadtxt("pima-indians-diabetes.csv", delimiter=",",  )
+response = urllib2.urlopen('https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv')
+raw_data = response.read()
+dataset = raw_data.split("\n")
+#dataset = numpy.loadtxt("pima-indians-diabetes.csv", delimiter=",",  )
 # split into input (X) and output (Y) variables
 X = dataset[:,0:8]
 Y = dataset[:,8]
