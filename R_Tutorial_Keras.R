@@ -5,7 +5,7 @@
 # pip install keras
 # install.packages("kerasR")
 # install.packages("keras")
-library(kerasR)
+library(kerasR) # if you get an error message, close R, type 'reticulate::use_python()' on the terminal and restart R
 mod <- Sequential()
 # The result of Sequential, as with most of the functions provided by kerasR, is a python.builtin.object. This object type, defined from the reticulate package, provides direct access to all of the methods and attributes exposed by the underlying python class. To access these, we use the $ operator followed by the method name. Layers are added by calling the method add. This function takes as an input another python.builtin.object, generally constructed as the output of another kerasR function. For example, to add a dense layer to our model we do the following:
   
