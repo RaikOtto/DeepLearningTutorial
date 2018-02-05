@@ -11,10 +11,8 @@ seed = 7
 numpy.random.seed(seed)
 
 # load pima indians dataset
-response = urllib2.urlopen('https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv')
-raw_data = response.read()
-dataset = raw_data.split("\n")
-#dataset = numpy.loadtxt("pima-indians-diabetes.csv", delimiter=",",  )
+dataset = numpy.loadtxt("pima-indians-diabetes.csv", delimiter=",")
+
 # split into input (X) and output (Y) variables
 X = dataset[:,0:8]
 Y = dataset[:,8]
