@@ -4,19 +4,29 @@ import sys; print('Python %s on %s' % (sys.version, sys.platform))
 from keras.models import Sequential
 from keras.layers import Dense
 import numpy
-import urllib
+import urllib2
 from sklearn.metrics import confusion_matrix
+from os.path import expanduser
 
 # fix random seed for reproducibility
 seed = 7
 numpy.random.seed(seed)
 
-# load pima indians dataset
-# response = urllib.request.urlopen('https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv')
-# raw_data = response.read().decode()
-# dataset = numpy.stack([numpy.fromstring(x, sep=",") for x in raw_data.split('\n') if x])
-dataset = numpy.loadtxt("pima-indians-diabetes.csv", delimiter=",",  )
+# load pima indians dataset and store to disk
+url = 'https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv'
+response = urllib2.urlopen( url )
+data = response.read()
 
+home = expanduser("~")
+filename = home + "/pima-indians-diabetes.csv"
+
+with open( filename, 'w'  ) as write_handle:
+    write_handle.write(data)
+
+# load pima indians dataset
+dataset = numpy.loadtxt(filename, delimiter=",")
+dataset
+    
 # split into input (X) and output (Y) variables
 X = dataset[:,0:8]
 Y = dataset[:,8]
@@ -26,9 +36,17 @@ model.add(Dense(12, input_dim=8, init='uniform', activation='relu'))
 model.add(Dense(8, init='uniform', activation='relu'))
 model.add(Dense(1, init='uniform', activation='sigmoid'))
 # Compile model
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(
+    loss='binary_crossentropy',
+    optimizer='adam',
+    metrics=['accuracy'])
 # Fit the model
-model.fit(X, Y, epochs=150, batch_size=10,  verbose=2)
+model.fit(
+    X,
+    Y,
+    epochs=150,
+    batch_size=10,
+    verbose=2)
 # Evaluate the network
 loss, accuracy = model.evaluate(X, Y)
 print("\nLoss: %.2f, Accuracy: %.2f%%" % (loss, accuracy*100))
