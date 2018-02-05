@@ -55,22 +55,38 @@ print("\nLoss: %.2f, Accuracy: %.2f%%" % (loss, accuracy*100))
 probabilities = model.predict(X)
 predictions = [float(x>0.5) for x in probabilities]
 
-# visualizations
+## visualizations
+
+# loss function
 import matplotlib.pyplot as plt
 
 loss = history.history['loss']
-#val_loss = history.history['val_loss']
 
 epochs = range(1, len(loss) + 1)
 
 plt.plot(epochs, loss, 'bo', label='Training loss')
-#plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 
 plt.show()
+
+# accuracy
+
+plt.clf()   # clear figure
+
+acc = history.history['acc']
+
+plt.plot(epochs, acc, 'bo', label='Training acc')
+plt.title('Training accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.show()
+
+#
 
 cm = confusion_matrix(Y, predictions)
 print ("True positives:  %.0f" % cm[1,1])
