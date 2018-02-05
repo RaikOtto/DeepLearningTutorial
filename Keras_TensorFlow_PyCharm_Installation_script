@@ -7,7 +7,7 @@
 sudo apt-get install python-pip python-dev # Python 2.7
 sudo pip install --upgrade pip
 
-pip install tensorflow
+pip install tensorflow sklearn
 
 ### Keras from https://keras.io/#installation
 
