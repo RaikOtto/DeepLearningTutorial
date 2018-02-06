@@ -1,5 +1,7 @@
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
 
+# make sure to connect via 'xterm -ls -xrm 'XTerm*selectToClipboard: true'&
+
 # Create first network with Keras
 from keras.models import Sequential
 from keras.layers import Dense
@@ -7,6 +9,13 @@ import numpy
 import urllib2
 from sklearn.metrics import confusion_matrix
 from os.path import expanduser
+
+# set preloading
+
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
 
 # fix random seed for reproducibility
 seed = 7
