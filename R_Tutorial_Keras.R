@@ -3,9 +3,9 @@
 
 # pip install tensorflow
 # pip install keras
-install.packages("kerasR")
+
 # install.packages("keras")
-library(kerasR) # if you get an error message, close R, type 'reticulate::use_python()' on the terminal and restart R
+library(kerasR) # if you get an error message -> install.packages("kerasR")
 library(keras)
 
 mod <- Sequential()
