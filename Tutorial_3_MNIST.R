@@ -248,13 +248,13 @@ mean(Y_test == as.numeric(round(Y_test_hat)))
 
 keras_save(mod, "full_model.h5")
 keras_save_weights(mod, "weights_model.h5")
-keras_model_to_json(mod, "model_architecture.json")
-
+#keras_model_to_json(mod, "model_architecture.json")
+#mod <- keras_model_to_json("model_architecture.json")
 # The first saves the entire model, which is more than likely what most users would want, as a binary file. The second saves only the weights as a binary file; the actual model architecture would have to be created again in R. Finally, the last saves just a json description of the model. This is probably most helpful because it gives a human-readable description of your model architecture. The follow functions show how to read these outputs back into R, respectively:
   
 mod <- keras_load("full_model.h5")
 #keras_load_weights(mod, tf)
-mod <- keras_model_to_json("model_architecture.json")
+#mod <- keras_model_to_json("model_architecture.json")
 # Note that all three outputs can be read directly into a Python session running the keras module.
 
 # Loading Pretrained Models
