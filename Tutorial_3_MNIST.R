@@ -1,12 +1,17 @@
+#!/usr/bin/Rscript
 # A Small Example (Boston Housing Data)
 # Building a model in Keras starts by constructing an empty Sequential model.
+
+# Set # of GPUs to be used in TensorFlow backend.
+Sys.setenv(CUDA_VISIBLE_DEVICES="0,3")
 
 # pip install tensorflow
 # pip install keras
 
 library(tensorflow)
 config = tf$ConfigProto()
-config$gpu_options$allow_growth=TRUE
+result = tryCatch({ config$gpu_options$allow_growth=TRUE }, error = function(e) { })
+print(config$gpu_options$allow_growth)
 sess = tf$Session(config=config)
 
 # install.packages("keras")
