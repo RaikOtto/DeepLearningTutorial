@@ -8,6 +8,8 @@
 library(kerasR) # if you get an error message -> install.packages("kerasR")
 library(keras)
 
+nr_epochs = 2 # very low in practice but needed due to performance issues
+
 mod <- Sequential()
 # The result of Sequential, as with most of the functions provided by kerasR, is a python.builtin.object. This object type, defined from the reticulate package, provides direct access to all of the methods and attributes exposed by the underlying python class. To access these, we use the $ operator followed by the method name. Layers are added by calling the method add. This function takes as an input another python.builtin.object, generally constructed as the output of another kerasR function. For example, to add a dense layer to our model we do the following:
   
@@ -33,7 +35,7 @@ Y_test <- boston$Y_test
 # Now, we call the wrapper keras_fit in order to fit the model from this data. As with the compilation, there is a direct method for doing this but you will likely run into data type conversion problems calling it directly. Instead, we see how easy it is to use the wrapper function (if you run this yourself, you will see that Keras provides very good verbose output for tracking the fitting of models):
   
 keras_fit(mod, X_train, Y_train,
-          batch_size = 32, epochs = 200,
+          batch_size = 32, epochs = nr_epochs,
           verbose = 1, validation_split = 0.1)
 
 ## output
@@ -85,7 +87,7 @@ keras_fit(
     X_train,
     Y_train,
     batch_size = 32,
-    epochs = 5,
+    epochs = nr_epochs,
     verbose = 1,
     validation_split = 0.1
 )
@@ -138,7 +140,7 @@ mod$add(Activation("softmax"))
 # Once the model has been created, we compile it and fit it to the data using the exact same functions as previously used.
 
 keras_compile(mod,  loss = 'categorical_crossentropy', optimizer = RMSprop())
-keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = 5, verbose = 1,validation_split = 0.1)
+keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = nr_epochs, verbose = 1,validation_split = 0.1)
 # And we see that this new data has improved the overall classification rate:
   
 Y_test_hat <- keras_predict_classes(mod, X_test)
@@ -188,7 +190,7 @@ mod$add(Activation('sigmoid'))
 # We use almost the exact same commands to compile and fit the model, but here modify the loss to be “binary_crossentropy” because we have only one column in the output. We also found that the learning rate needed to be made slightly smaller as to not overfit the data.
 
 keras_compile(mod,  loss = 'binary_crossentropy', optimizer = RMSprop(lr = 0.00025))
-keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = 10, verbose = 1,validation_split = 0.1)
+keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = nr_epochs, verbose = 1,validation_split = 0.1)
 
 # Now we predict the raw values and round to the nearest integer, which should be either 0 or 1, and compare to the actual test set.
 
@@ -218,7 +220,7 @@ mod$add(Activation('sigmoid'))
 # Which we compile and fit as before:
   
 keras_compile(mod,  loss = 'binary_crossentropy', optimizer = RMSprop(lr = 0.00025))
-keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = 10, verbose = 1,validation_split = 0.1)
+keras_fit(mod, X_train, Y_train, batch_size = 32, epochs = nr_epochs, verbose = 1,validation_split = 0.1)
 
 # The test results do offer an improvement:
   
