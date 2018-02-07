@@ -4,6 +4,11 @@
 # pip install tensorflow
 # pip install keras
 
+library(tensorflow)
+config = tf$ConfigProto()
+config$gpu_options$allow_growth=TRUE
+sess = tf$Session(config=config)
+
 # install.packages("keras")
 library(kerasR) # if you get an error message -> install.packages("kerasR")
 library(keras)
