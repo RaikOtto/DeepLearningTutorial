@@ -71,7 +71,7 @@ loss = numpy.array(history.history['loss'])
 epochs = numpy.array(range(1, len(loss) + 1))
 
 gpl.plot((epochs, loss),
-	_with='points', 
+	_with='dots', 
 	title='Training loss', 
 	legend='Training loss', 
 	xlabel='Epochs',
@@ -84,7 +84,7 @@ gpl.plot((epochs, loss),
 acc = numpy.array(history.history['acc'])
 
 gpl.plot((epochs, acc),
-	_with='points', 
+	_with='dots', 
 	title='Training accuracy', 
 	legend='Training acc', 
 	xlabel='Epochs',
