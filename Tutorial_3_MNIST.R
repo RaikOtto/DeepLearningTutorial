@@ -1,12 +1,33 @@
+#!/usr/bin/Rscript
 # A Small Example (Boston Housing Data)
 # Building a model in Keras starts by constructing an empty Sequential model.
+
+# Set # of GPUs to be used in TensorFlow backend.
+Sys.setenv(CUDA_VISIBLE_DEVICES="0,3")
+
+# Limit the # of threads to keep the memory footprint low.
+Sys.setenv(OPENBLAS_NUM_THREADS="1")
+Sys.setenv(NUMEXPR_NUM_THREADS="1")
+Sys.setenv(OMP_NUM_THREADS="1")
 
 # pip install tensorflow
 # pip install keras
 
+library(tensorflow)
+config = tf$ConfigProto()
+result = tryCatch({ config$gpu_options$allow_growth=TRUE }, error = function(e) { })
+print(config$gpu_options$allow_growth)
+config$inter_op_parallelism_threads = 1L
+config$intra_op_parallelism_threads = 1L
+server = tf$train$Server$create_local_server(config=config)
+sess = tf$Session(server$target)
+#sess = tf$Session(config=config)
+
 # install.packages("keras")
 library(kerasR) # if you get an error message -> install.packages("kerasR")
 library(keras)
+
+k_set_session(sess)
 
 nr_epochs = 2 # very low in practice but needed due to performance issues
 
@@ -238,13 +259,12 @@ mean(Y_test == as.numeric(round(Y_test_hat)))
 
 keras_save(mod, "full_model.h5")
 keras_save_weights(mod, "weights_model.h5")
-keras_model_to_json(mod, "model_architecture.json")
-
+#keras_model_to_json(mod, "model_architecture.json")
 # The first saves the entire model, which is more than likely what most users would want, as a binary file. The second saves only the weights as a binary file; the actual model architecture would have to be created again in R. Finally, the last saves just a json description of the model. This is probably most helpful because it gives a human-readable description of your model architecture. The follow functions show how to read these outputs back into R, respectively:
   
 mod <- keras_load("full_model.h5")
 #keras_load_weights(mod, tf)
-mod <- keras_model_to_json("model_architecture.json")
+#mod <- keras_model_to_json("model_architecture.json")
 # Note that all three outputs can be read directly into a Python session running the keras module.
 
 # Loading Pretrained Models
@@ -258,10 +278,10 @@ inception <- InceptionV3(weights='imagenet')
 
 curl::curl_download(
   url ="https://raw.githubusercontent.com/RaikOtto/DeepLearningTutorial/master/Download.jpeg",
-  destfile = normalizePath("~/elephant.jpg")
+  destfile = normalizePath("./elephant.jpg")
 )
 
-img <- kerasR::load_img( normalizePath("~/elephant.jpg"), target_size = c(299, 299))
+img <- kerasR::load_img( normalizePath("./elephant.jpg"), target_size = c(299, 299))
 x <- img_to_array(img)
 x <- expand_dims(x, axis = 0)
 # We specifically ask that the image be converted into a 299 by 299 image, the size of the images used to train VGG19 from imagenet. The photo must then also undergo the exact same preprocessing used on images that trained InceptionV3, which in this case just divides all the pixels by 255
