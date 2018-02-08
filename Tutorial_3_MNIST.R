@@ -272,30 +272,3 @@ mod <- keras_load("full_model.h5")
   
 # To begin with, let us load the InceptionV3 model into R:
   
-inception <- InceptionV3(weights='imagenet')
-# And then, we will use the wrapper load_img to load the elephant image into R as a python object, and then convert it into an array with img_to_array and expand_dims:
-
-
-curl::curl_download(
-  url ="https://raw.githubusercontent.com/RaikOtto/DeepLearningTutorial/master/Download.jpeg",
-  destfile = normalizePath("./elephant.jpg")
-)
-
-img <- kerasR::load_img( normalizePath("./elephant.jpg"), target_size = c(299, 299))
-x <- img_to_array(img)
-x <- expand_dims(x, axis = 0)
-# We specifically ask that the image be converted into a 299 by 299 image, the size of the images used to train VGG19 from imagenet. The photo must then also undergo the exact same preprocessing used on images that trained InceptionV3, which in this case just divides all the pixels by 255
-
-x <- x / 255
-# We can get the raw prediction categories with
-
-pred <- keras_predict(inception, x)
-# But even more directly, we can take this output and get category names:
-  
-unlist(decode_predictions(pred, model = "InceptionV3", top = 3))
-
-#[1] "n01871265"         "tusker"            "0.546035408973694"
-#[4] "n02504013"         "Indian_elephant"   "0.247862368822098"
-#[7] "n02504458"         "African_elephant"  "0.143739387392998"
-
-# And we see that VGG19 correctly identifies the most likely animal in the photo as an elephant. More specifically, it spreads the probability weights over 3 specific sub-types of elephant.
