@@ -73,29 +73,27 @@ loss = history.history['loss']
 
 epochs = range(1, len(loss) + 1)
 
-gpl.plot(epochs, loss,
+gpl.plot((epochs, loss),
 	_with='points', 
 	title='Training loss', 
 	legend='Training loss', 
 	xlabel='Epochs',
 	ylabel='Loss',
 	unset='grid',
-	terminal='dumb 40,80')
+	terminal='dumb 120,30')
 
 # accuracy
 
-plt.clf()   # clear figure
-
 acc = history.history['acc']
 
-gpl.plot(epochs, acc,
+gpl.plot((epochs, acc),
 	_with='points', 
 	title='Training accuracy', 
 	legend='Training acc', 
 	xlabel='Epochs',
 	ylabel='Accuracy',
 	unset='grid',
-	terminal='dumb 40,80')
+	terminal='dumb 120,30')
 
 #
 
