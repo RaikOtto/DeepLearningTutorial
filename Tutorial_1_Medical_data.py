@@ -21,6 +21,8 @@ session = tf.Session(config=config)
 seed = 7
 numpy.random.seed(seed)
 
+nr_epochs = 20
+
 # load pima indians dataset and store to disk
 url = 'https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv'
 response = urllib2.urlopen( url )
@@ -53,7 +55,7 @@ model.compile(
 history = model.fit(
     X,
     Y,
-    epochs=1000,
+    epochs=nr_epochs,
     batch_size=10,
     verbose=2)
 
