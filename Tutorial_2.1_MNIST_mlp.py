@@ -23,7 +23,7 @@ session = tf.Session(config=config)
 
 batch_size = 128
 num_classes = 10
-epochs = 20
+epochs = 5
 dropout = 0.2
 
 # the data, shuffled and split between train and test sets
