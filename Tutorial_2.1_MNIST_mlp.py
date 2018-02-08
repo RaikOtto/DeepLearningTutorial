@@ -12,6 +12,14 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.optimizers import RMSprop
 
+# prevent a single instance from claiming all memory
+
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+
+
 batch_size = 128
 num_classes = 10
 epochs = 20
