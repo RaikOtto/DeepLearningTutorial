@@ -17,6 +17,7 @@ session = tf.Session(config=config)
 from keras.models import Sequential
 from keras.layers import Dense
 import numpy
+import urllib
 from sklearn.metrics import confusion_matrix
 from os.path import expanduser
 import urllib
