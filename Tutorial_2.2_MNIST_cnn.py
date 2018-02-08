@@ -4,6 +4,15 @@ import os
 import numpy as np
 import tensorflow as tf
 
+# prevent a single instance from claiming all memory
+
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+
+# start
+
 np.random.seed(5005)
 tf.set_random_seed(5005)
 
