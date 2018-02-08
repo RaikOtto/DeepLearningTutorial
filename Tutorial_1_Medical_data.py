@@ -21,7 +21,7 @@ session = tf.Session(config=config)
 seed = 7
 numpy.random.seed(seed)
 
-nr_epochs = 20
+nr_epochs = 200
 
 # load pima indians dataset and store to disk
 url = 'https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv'
