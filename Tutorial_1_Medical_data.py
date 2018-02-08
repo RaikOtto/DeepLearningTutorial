@@ -19,7 +19,7 @@ from keras.layers import Dense
 import numpy
 from sklearn.metrics import confusion_matrix
 from os.path import expanduser
-
+import urllib
 # fix random seed for reproducibility
 seed = 7
 numpy.random.seed(seed)
@@ -27,8 +27,9 @@ numpy.random.seed(seed)
 # load pima dataset
 nr_epochs = 200
 
+
 url = 'https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv'
-response = urllib.request.urlopen( url )
+response = urllib.urlopen( url )
 dataset = numpy.loadtxt(response, delimiter=",")
     
 # split into input (X) and output (Y) variables
