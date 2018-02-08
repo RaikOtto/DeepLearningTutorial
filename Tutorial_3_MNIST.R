@@ -1,4 +1,3 @@
-#!/usr/bin/Rscript
 # A Small Example (Boston Housing Data)
 # Building a model in Keras starts by constructing an empty Sequential model.
 
