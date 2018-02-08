@@ -20,7 +20,7 @@ import numpy
 import urllib
 from sklearn.metrics import confusion_matrix
 from os.path import expanduser
-import urllib
+
 # fix random seed for reproducibility
 seed = 7
 numpy.random.seed(seed)
@@ -28,10 +28,7 @@ numpy.random.seed(seed)
 # load pima dataset
 nr_epochs = 200
 
-
-url = 'https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv'
-response = urllib.urlopen( url )
-dataset = numpy.loadtxt(response, delimiter=",")
+dataset = numpy.loadtxt('pima-indians-diabetes.csv', delimiter=",")
     
 # split into input (X) and output (Y) variables
 X = dataset[:,0:8]
@@ -69,9 +66,9 @@ predictions = [float(x>0.5) for x in probabilities]
 # loss function
 import gnuplotlib as gpl
 
-loss = history.history['loss']
+loss = numpy.array(history.history['loss'])
 
-epochs = range(1, len(loss) + 1)
+epochs = numpy.array(range(1, len(loss) + 1))
 
 gpl.plot((epochs, loss),
 	_with='points', 
@@ -84,7 +81,7 @@ gpl.plot((epochs, loss),
 
 # accuracy
 
-acc = history.history['acc']
+acc = numpy.array(history.history['acc'])
 
 gpl.plot((epochs, acc),
 	_with='points', 
