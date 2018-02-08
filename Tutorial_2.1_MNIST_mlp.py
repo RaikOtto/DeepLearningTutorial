@@ -12,9 +12,19 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.optimizers import RMSprop
 
+# prevent a single instance from claiming all memory
+
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+
+# start
+
 batch_size = 128
 num_classes = 10
-epochs = 20
+epochs = 5
+dropout = 0.2
 
 # the data, shuffled and split between train and test sets
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -34,9 +44,9 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
 model.add(Dense(512, activation='relu', input_shape=(784,)))
-model.add(Dropout(0.2))
+model.add(Dropout(dropout))
 model.add(Dense(512, activation='relu'))
-model.add(Dropout(0.2))
+model.add(Dropout(dropout))
 model.add(Dense(num_classes, activation='softmax'))
 
 model.summary()
@@ -50,6 +60,10 @@ history = model.fit(x_train, y_train,
                     epochs=epochs,
                     verbose=1,
                     validation_data=(x_test, y_test))
+score = model.evaluate(x_train, y_train, verbose=0)
+print('Train loss:', score[0])
+print('Train accuracy:', score[1])
+
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])

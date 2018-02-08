@@ -25,6 +25,8 @@ seed = 7
 numpy.random.seed(seed)
 
 # load pima dataset
+nr_epochs = 200
+
 url = 'https://github.com/RaikOtto/DeepLearningTutorial/raw/master/pima-indians-diabetes.csv'
 response = urllib.request.urlopen( url )
 dataset = numpy.loadtxt(response, delimiter=",")
@@ -49,7 +51,7 @@ model.compile(
 history = model.fit(
     X,
     Y,
-    epochs=1000,
+    epochs=nr_epochs,
     batch_size=10,
     verbose=2)
 
