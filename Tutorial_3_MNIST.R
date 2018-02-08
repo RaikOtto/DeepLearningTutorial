@@ -9,11 +9,8 @@ Sys.setenv(OPENBLAS_NUM_THREADS="1")
 Sys.setenv(NUMEXPR_NUM_THREADS="1")
 Sys.setenv(OMP_NUM_THREADS="1")
 
-# pip install tensorflow
-# pip install keras
-
 # below commands will throw error don't panic!
-library(tensorflow)
+library(tensorflow) # only loaded earlier for setting parameters
 config = tf$ConfigProto()
 result = tryCatch({ config$gpu_options$allow_growth=TRUE }, error = function(e) { })
 print(config$gpu_options$allow_growth)
@@ -21,9 +18,8 @@ config$inter_op_parallelism_threads = 1L
 config$intra_op_parallelism_threads = 1L
 server = tf$train$Server$create_local_server(config=config)
 sess = tf$Session(server$target)
-#sess = tf$Session(config=config)
 
-# install.packages("keras")
+# load libraries
 library(kerasR) # if you get an error message -> install.packages("kerasR")
 library(keras)
 
