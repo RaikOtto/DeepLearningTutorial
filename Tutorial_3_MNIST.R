@@ -13,6 +13,7 @@ Sys.setenv(OMP_NUM_THREADS="1")
 # pip install tensorflow
 # pip install keras
 
+# below commands will throw error don't panic!
 library(tensorflow)
 config = tf$ConfigProto()
 result = tryCatch({ config$gpu_options$allow_growth=TRUE }, error = function(e) { })
@@ -29,7 +30,7 @@ library(keras)
 
 k_set_session(sess)
 
-nr_epochs = 2 # very low in practice but needed due to performance issues
+nr_epochs = 1 # too low in practice but needed due to performance issues
 
 mod <- Sequential()
 # The result of Sequential, as with most of the functions provided by kerasR, is a python.builtin.object. This object type, defined from the reticulate package, provides direct access to all of the methods and attributes exposed by the underlying python class. To access these, we use the $ operator followed by the method name. Layers are added by calling the method add. This function takes as an input another python.builtin.object, generally constructed as the output of another kerasR function. For example, to add a dense layer to our model we do the following:
