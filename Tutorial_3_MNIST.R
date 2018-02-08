@@ -185,7 +185,7 @@ mean(Y_test == Y_test_hat)
 # Recurrent Neural Networks (RNN) with IMDB
 # As a final example, we will demonstrate the usage of recurrent neural networks in Keras. RNNs are able to “hold their state” in between inputs, and therefore are useful for modeling a sequence of data such as occurs with a time series or with a collection words in a text. Here we will use them to predict whether a movie review from IMDB is generally positive (1) or negative (0). We’ll load the data in using a similar command as with the Boston Housing Data and MNIST, but here the load functions has a few options that we can set. Once the data is loaded, we’ll use the wrapper pad_sequences to make sure every review has exactly 100 words (those with fewer get padded with a special “word” coded as zeros). Because there are only two classes, we can keep Y_train in its default format.
 
-imdb <- load_imdb(num_words = 500, maxlen = 100)
+imdb <- load_imdb(num_words = 50, maxlen = 100) # initially 100 num words, limited for memory footprint
 
 X_train <- pad_sequences(imdb$X_train[1:4000], maxlen = 100)
 Y_train <- imdb$Y_train[1:4000]
